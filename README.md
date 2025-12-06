@@ -18,17 +18,17 @@ A proposta faz parte de um case técnico de processo seletivo, com foco em:
 
 1. **Aplicação de Pedidos + Banco Transacional**
    - A aplicação da squad de produto grava as transações de pedidos em um banco transacional (ex.: Azure SQL / Postgres).
-   - Um padrão **Outbox** é utilizado para garantir consistência entre a gravação do pedido e a publicação de eventos.
+   - Um padrão **Outbox** é utilizado para garantir consistência entre a gravação do pedido e a publicação de eventos de negócio.
 
 2. **Ingestão em Real Time (CDC + Azure Event Hubs com protocolo Kafka)**
    - Um conector **CDC** lê a tabela Outbox do banco transacional.
-   - Os eventos são publicados no **Azure Event Hubs** (Kafka enabled) no tópico `sales-transactions-raw`.
+   - Os eventos são publicados no **Azure Event Hubs** (Kafka enabled), no tópico `sales-transactions-raw`.
 
-3. **Processamento em Databricks (Arquitetura Medalhão)**
-   - **Bronze (Streaming)**: ingestão contínua dos eventos a partir do Event Hubs para tabelas Delta.
-   - **Silver (Governança)**: normalização de tipos, regras de qualidade, quarentena de registros inválidos.
-   - **Silver (Business)**: aplicação de regras de negócio (ex.: cálculo de `line_total`, filtros de clientes de teste).
-   - **Gold**: construção de dimensões, fato de vendas e métricas agregadas para consumo analítico.
+3. **Processamento em Databricks (Arquitetura Medalhão + Execução Híbrida)**
+   - **Bronze (Streaming contínuo):** ingestão contínua dos eventos a partir do Event Hubs para tabelas Delta.
+   - **Silver Governança (Batch – 5 min):** normalização de tipos, regras de qualidade, quarentena de registros inválidos.
+   - **Silver Business (Batch – 5 min):** aplicação de regras de negócio (ex.: cálculo de `line_total`, filtros de clientes de teste).
+   - **Gold (Batch – 15 min):** construção de dimensões, fato de vendas e métricas agregadas para consumo analítico.
 
 4. **Camada de Consumo**
    - Tabelas Gold são consumidas por:
@@ -56,3 +56,4 @@ TransactionNo | Date       | ProductNo | ProductName             | Price | Quant
 ------------- | ---------- | --------- | ------------------------| ----- | -------- | ---------- | --------------
 581482        | 12/9/2019  | 22485     | Set Of 2 Wooden M...    | 21.47 | 12       | 17490      | United Kingdom
 ...
+
