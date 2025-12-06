@@ -1,8 +1,8 @@
+
+# Arquitetura de Dados em Real Time para Squad de Pedidos
 <p align="center">
   <img src="real-time-orders-architecture/Arquitetura_juntos.jpg" alt="Arquitetura Real Time - Pedidos" width="800">
 </p>
-# Arquitetura de Dados em Real Time para Squad de Pedidos
-
 Este repositório apresenta a solução de dados **near real time** para a squad de pedidos,
 usando uma arquitetura **Medalhão (Bronze / Silver / Gold)** em cima de **Azure Event Hubs (Kafka) + Databricks + Delta Lake**.
 
