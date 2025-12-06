@@ -43,7 +43,7 @@ A proposta faz parte de um case técnico de processo seletivo, com foco em:
 - **Databricks + Apache Spark (PySpark)** – processamento em streaming e batch.
 - **Delta Lake** – armazenamento transacional nas camadas Bronze, Silver e Gold.
 - **Python / PySpark** – desenvolvimento dos notebooks.
-- (Opcional na apresentação) **Power BI** – dashboards e relatórios analíticos.
+- **Power BI** – dashboards e relatórios analíticos.
 
 ---
 
