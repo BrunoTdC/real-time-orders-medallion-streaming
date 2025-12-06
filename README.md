@@ -52,3 +52,9 @@ TransactionNo | Date       | ProductNo | ProductName             | Price | Quant
 ------------- | ---------- | --------- | ------------------------| ----- | -------- | ---------- | --------------
 581482        | 12/9/2019  | 22485     | Set Of 2 Wooden M...    | 21.47 | 12       | 17490      | United Kingdom
 ...
+
+
+
+<p align="center">
+  <img src="real-time-orders-architecture/Arquitetura_juntos.jpg" alt="Arquitetura Real Time - Pedidos" width="800">
+</p>
