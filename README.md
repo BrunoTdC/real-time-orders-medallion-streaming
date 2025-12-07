@@ -28,7 +28,7 @@ A proposta faz parte de um case técnico de processo seletivo, com foco em:
    - **Bronze (Streaming contínuo):** ingestão contínua dos eventos a partir do Event Hubs para tabelas Delta.
    - **Silver Governança (Batch – 5 min):** normalização de tipos, regras de qualidade, quarentena de registros inválidos.
    - **Silver Business (Batch – 5 min):** aplicação de regras de negócio (ex.: cálculo de `line_total`, filtros de clientes de teste).
-   - **Gold (Batch – 15 min):** construção de dimensões, fato de vendas e métricas agregadas para consumo analítico.
+   - **Gold (Batch – 5 min):** construção de dimensões, fato de vendas e métricas agregadas para consumo analítico.
 
 4. **Camada de Consumo**
    - Tabelas Gold são consumidas por:
