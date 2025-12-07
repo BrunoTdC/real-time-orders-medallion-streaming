@@ -15,7 +15,7 @@ df_trusted = spark.read.format("delta").load(silver_trusted_path)
 # 2. Aplicação de regras de negócio
 # =================================================================
 
-test_customers = ["99999", "TESTE", "12345"]  # exemplo
+test_customers = ["99999", "TESTE", "12345"]  
 
 df_business = (
     df_trusted
@@ -49,3 +49,4 @@ spark.sql(f"""
     USING DELTA
     LOCATION '{silver_business_path}'
 """)
+
