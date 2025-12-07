@@ -65,9 +65,10 @@ query_bronze = (
     .option("checkpointLocation", bronze_checkpoint)
     .option("path", bronze_path)
     .outputMode("append")
-    .trigger(processingTime="1 minute")  # micro-batch ~1 min
+    .trigger(processingTime="10 seconds") 
     .start()
 )
 
 # Opcional: exibir status no notebook
 display(df_bronze)
+
