@@ -13,9 +13,6 @@ df_trusted = spark.read.format("delta").load(silver_trusted_path)
 
 # =================================================================
 # 2. Aplicação de regras de negócio
-#    - Remover clientes de teste
-#    - Calcular line_total (Price * Quantity)
-#    - Flags de negócio (ex.: cliente UK)
 # =================================================================
 
 test_customers = ["99999", "TESTE", "12345"]  # exemplo
@@ -28,12 +25,13 @@ df_business = (
     .withColumn("line_total", col("price") * col("quantity"))
     # flag por país
     .withColumn("is_uk_customer", col("country") == lit("UNITED KINGDOM"))
-    # data da venda (dia)
+    # data da venda (dia) – usando event_datetime já calculado no notebook 02
     .withColumn("sale_date", to_date("event_datetime"))
 )
 
 # =================================================================
-# 3. Escrita da Silver Business
+# 3. Escrita da Silver Business COM PARTICIONAMENTO
+#    Particionando por sale_date para facilitar consultas por período
 # =================================================================
 
 (
@@ -42,6 +40,7 @@ df_business = (
     .format("delta")
     .mode("overwrite")
     .option("overwriteSchema", "true")
+    .partitionBy("sale_date")        # <-- particionando por date
     .save(silver_business_path)
 )
 

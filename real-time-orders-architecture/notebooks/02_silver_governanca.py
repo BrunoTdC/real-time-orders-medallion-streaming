@@ -19,6 +19,7 @@ df_bronze = spark.read.format("delta").load(bronze_path)
 df_typed = (
     df_bronze
     .withColumn("event_datetime", to_timestamp("event_date_raw", "dd/M/yyyy"))
+    .withColumn("event_date", to_date("event_datetime"))  # <- coluna de data para particionamento
     .withColumn("price", col("price").cast("decimal(10,2)"))
     .withColumn("quantity", col("quantity").cast("int"))
     .withColumn("country", upper(trim(col("country"))))
@@ -26,9 +27,6 @@ df_typed = (
 
 # =======================================================
 # 3. Regras de qualidade (camada de governança)
-#    - PKs não nulas
-#    - Datas válidas
-#    - Quantidade > 0, preço >= 0
 # =======================================================
 
 df_quality = (
@@ -50,16 +48,17 @@ df_trusted    = df_quality.filter(col("valid_record") == True).drop("valid_recor
 df_quarantine = df_quality.filter(col("valid_record") == False)
 
 # =======================================================
-# 4. Escrita Silver Trusted + Quarantine
-#    (aqui está simples em overwrite; em prod usar MERGE/incremental)
+# 4. Escrita Silver Trusted + Quarantine COM PARTICIONAMENTO
+#    Aqui particionamos por event_date (data do evento)
 # =======================================================
 
 (
     df_trusted
     .write
     .format("delta")
-    .mode("overwrite")
+    .mode("overwrite")               # em prod: ideal usar MERGE incremental
     .option("overwriteSchema", "true")
+    .partitionBy("event_date")       # <-- particionando por date
     .save(silver_trusted_path)
 )
 
@@ -69,6 +68,7 @@ df_quarantine = df_quality.filter(col("valid_record") == False)
     .format("delta")
     .mode("overwrite")
     .option("overwriteSchema", "true")
+    .partitionBy("event_date")       # <-- particionando também a quarentena
     .save(silver_quarantine_path)
 )
 

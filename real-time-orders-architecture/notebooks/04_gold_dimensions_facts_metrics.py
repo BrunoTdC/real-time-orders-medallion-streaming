@@ -13,7 +13,7 @@ from pyspark.sql.window import Window
 df_silver = spark.read.format("delta").load(silver_business_path)
 
 # =======================================================
-# 2. Dimensões
+# 2. Dimensões (sem necessidade de particionamento)
 # =======================================================
 
 # ---------- Dimensão Produto ----------
@@ -75,6 +75,7 @@ spark.sql(f"""
 
 # =======================================================
 # 3. Fato de vendas (grain: TransactionNo + ProductNo)
+#    COM PARTICIONAMENTO POR date
 # =======================================================
 
 fact_sales = (
@@ -91,7 +92,11 @@ fact_sales = (
     )
 )
 
-fact_sales.write.format("delta").mode("overwrite").save(gold_fact_sales_path)
+fact_sales.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .partitionBy("date") \        # <-- particionando por date
+    .save(gold_fact_sales_path)
 
 spark.sql(f"""
     CREATE TABLE IF NOT EXISTS fact_sales
@@ -101,6 +106,7 @@ spark.sql(f"""
 
 # =======================================================
 # 4. Métricas agregadas (ex.: por dia / país)
+#    COM PARTICIONAMENTO POR date
 # =======================================================
 
 metrics_daily_country = (
@@ -114,7 +120,11 @@ metrics_daily_country = (
     )
 )
 
-metrics_daily_country.write.format("delta").mode("overwrite").save(gold_metrics_daily_country_path)
+metrics_daily_country.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .partitionBy("date") \        # <-- particionando por date
+    .save(gold_metrics_daily_country_path)
 
 spark.sql(f"""
     CREATE TABLE IF NOT EXISTS metrics_daily_country

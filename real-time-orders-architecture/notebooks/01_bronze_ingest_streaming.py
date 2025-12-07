@@ -2,7 +2,6 @@
 # 01_bronze_ingest_streaming
 
 # Carrega config comum
-# (ajuste o caminho relativo conforme a pasta dos notebooks)
 %run ./00_config_paths_and_schema
 
 from pyspark.sql.functions import *
@@ -66,10 +65,9 @@ query_bronze = (
     .option("checkpointLocation", bronze_checkpoint)
     .option("path", bronze_path)
     .outputMode("append")
+    .trigger(processingTime="1 minute")  # micro-batch ~1 min
     .start()
 )
 
 # Opcional: exibir status no notebook
 display(df_bronze)
-
-# Deixe o job rodando ou converta em Job Databricks
