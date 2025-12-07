@@ -69,6 +69,6 @@ query_bronze = (
     .start()
 )
 
-# Opcional: exibir status no notebook
-display(df_bronze)
+
+
 
