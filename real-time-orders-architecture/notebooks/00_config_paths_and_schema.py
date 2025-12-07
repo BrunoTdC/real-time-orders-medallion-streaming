@@ -5,7 +5,7 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
 # ===========================
-# Paths (ajuste pro seu DL)
+# Paths 
 # ===========================
 bronze_path                     = "/mnt/datalake/bronze/sales_line_items"
 bronze_checkpoint               = "/mnt/datalake/_checkpoints/bronze/sales_line_items"
@@ -21,8 +21,7 @@ gold_fact_sales_path            = "/mnt/datalake/gold/fact_sales"
 gold_metrics_daily_country_path = "/mnt/datalake/gold/metrics_daily_country"
 
 # =======================================
-# Config do Event Hubs com Kafka endpoint
-# (preencha com seus dados reais)
+# Config do Event Hubs com protocolo Kafka
 # =======================================
 kafka_bootstrap_servers = "<NAMESPACE>.servicebus.windows.net:9093"
 event_hub_name          = "sales-transactions-raw"
@@ -46,3 +45,4 @@ sales_schema = StructType([
     StructField("CustomerNo",    StringType(),  True),
     StructField("Country",       StringType(),  True),
 ])
+
