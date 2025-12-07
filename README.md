@@ -22,7 +22,7 @@ A proposta faz parte de um case técnico de processo seletivo, com foco em:
 
 2. **Ingestão em Real Time (CDC + Azure Event Hubs com protocolo Kafka)**
    - Um conector **CDC** lê a tabela Outbox do banco transacional.
-   - Os eventos são publicados no **Azure Event Hubs** (Kafka enabled), no tópico `sales-transactions-raw`.
+   - Os eventos são publicados no **Azure Event Hubs**, no tópico `sales-transactions-raw`.
 
 3. **Processamento em Databricks (Arquitetura Medalhão + Execução Híbrida)**
    - **Bronze (Streaming contínuo):** ingestão contínua dos eventos a partir do Event Hubs para tabelas Delta.
